@@ -45,11 +45,16 @@ codval=dictxl_fin.pivot(
 # )
 
 mer2=pd.merge(mer1,codval,on='DataDictionaryName',how='left')
+
+ct_lst= [col for col in mer2.columns if col.startswith("col-")]
+
+mer2["DictionaryValues"] = mer2[ct_lst].values.tolist()
+
+#mer_chk=
 mer2.to_excel(
     outputfdl / "check_this.xlsx",
     index=False
 )
 
 
-mer2.to_json( outputfdl / "output.json")
-    
+mer2.to_json( outputfdl / "output.json",orient="records", indent=4 )
